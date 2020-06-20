@@ -1,16 +1,28 @@
 #include "../lib/gtest.h"
 #include "definiciones.h"
 #include "auxiliares.h"
+#include "fstream"
 
 void escribirSenial(senial  s, string nombreArchivo){
-    // Implementacion
+    std::ofstream f(nombreArchivo);
+    for (int i = 0; i < s.size(); i++) {
+        f << s[i];
+        if(i < s.size()-1) f << " ";
+    }
+    f.close();
     return;
 }
 
 
 senial leerSenial(string nombreArchivo){
     senial s;
-    // Implementacion
+    ifstream f(nombreArchivo);
+    int val;
+    while (f>>val){
+        s.push_back(val);
+    }
+    f.close();
+
     return s;
 }
 
