@@ -1,10 +1,16 @@
 #include "solucion.h"
+#include<iostream>
 
 // Ejercicios
 
 bool esSenial(vector<int> s, int prof, int freq) {
-    bool resp = false;
-    // Implementacion
+    bool resp = (freq==10 && (prof==8 || prof==16 || prof==32));
+    resp = resp && duracion(s, freq) >= 1;
+
+    for (int i = 0; i < s.size(); i++) {
+        resp = resp && enRango(s[i], prof);
+    }
+
     return resp;
 }
 

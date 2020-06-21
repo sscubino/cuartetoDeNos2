@@ -3,6 +3,8 @@
 
 
 #include "definiciones.h"
+#include "auxiliares.h"
+#include <math.h>
 
 bool esSenial(vector<int> s, int prof, int freq);
 bool seEnojo(senial s, int umbral, int prof, int freq);
