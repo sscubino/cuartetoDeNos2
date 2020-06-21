@@ -91,6 +91,14 @@ bool enRango(int muestra, int prof){
     return (-pow(2, prof-1) <= muestra && muestra <= pow(2, prof-1)-1);
 }
 
+float tono(senial s, int desde, int hasta){
+    float t = 0;
+    for (int i = desde; i <= hasta; i++) {
+        t += abs(s[i]);
+    }
+    return t/s.size();
+}
+
 void ASSERT_SENIAL_EQ(senial s1, senial s2) {
     sort(s1.begin(), s1.end());
     sort(s2.begin(), s2.end());

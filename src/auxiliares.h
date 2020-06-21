@@ -8,6 +8,7 @@ senial leerSenial(string nombreArchivo);
 void escribirSenial(senial  s, string nombreArchivo);
 float duracion(senial s, int freq);
 bool enRango(int muestra, int prof);
+float tono(senial s, int desde, int hasta);
 void ASSERT_SENIAL_EQ(senial s1, senial s2);
 void ASSERT_REUNION_EQ(reunion reunion1, reunion reunion2);
 void ASSERT_HABLANTES_EQ(vector<hablante> s1, vector<hablante> s2);

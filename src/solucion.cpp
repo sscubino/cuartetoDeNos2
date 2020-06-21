@@ -16,7 +16,15 @@ bool esSenial(vector<int> s, int prof, int freq) {
 
 bool seEnojo(senial s, int umbral, int prof, int freq) {
     bool resp = false;
-    // Implementacion
+
+    for (int i = 0; i < s.size(); i++) {
+        // Inicializar j como i+freq*2-1 me asegura que
+        // subseq(s, i, j+1) tenga duracion >= 2seg
+        for (int j = i+freq*2-1; j < s.size(); j++) {
+            resp = resp || tono(s, i, j) > umbral;
+        }
+    }
+    
     return resp;
 }
 
