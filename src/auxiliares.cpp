@@ -84,7 +84,7 @@ bool intervalosOrdenadosIguales(vector<intervalo> s1, vector<intervalo> s2){
 }
 
 float duracion(senial s, int freq){
-    return s.size() * 1.0 / freq;
+    return s.size() * 1.f / freq;
 }
 
 bool enRango(int muestra, int prof){
@@ -97,6 +97,10 @@ float tono(senial s, int desde, int hasta){
         t += abs(s[i]);
     }
     return t/s.size();
+}
+
+float duracion (intervalo interv, int freq){
+    return (interv.second + 1 - interv.first) * 1.f / freq;
 }
 
 void ASSERT_SENIAL_EQ(senial s1, senial s2) {
