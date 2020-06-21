@@ -1,2 +1,7 @@
 .idea/
 cmake-build-debug/
+LaTeX/*.pdf
+LaTeX/*.aux
+LaTeX/*.toc
+LaTeX/*.log
+LaTeX/*.tmp
