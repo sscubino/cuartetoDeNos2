@@ -5,3 +5,5 @@ LaTeX/*.aux
 LaTeX/*.toc
 LaTeX/*.log
 LaTeX/*.tmp
+html/*
+cobertura

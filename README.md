@@ -20,3 +20,12 @@ Para eso esta el comando `git clone` y luego la direccion URL del repositorio. A
 * Despues usando el comando `cd` vayan a la ubicacion donde quieran que se cree la carpeta del tp.
 * Y ponen `git clone https://github.com/sscubino/cuartetoDeNos.git`
 * Listo ya crearon la carpeta con el TP donde quisieron.
+
+### Cómo generar analisis de cobertura de código (linux)
+Correr en el directorio principal del proyecto:
+- `lcov --capture --directory cmake-build-debug/ --output-filecobertura`
+- `genhtml cobertura --output-directory html`
+
+(Puede que tengan que instalar lcov, con `sudo apt install lcov`)
+
+Se les va a generar una carpeta "html", pueden abrir el archivo "index.html" con su navegador favorito
