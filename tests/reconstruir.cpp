@@ -30,11 +30,11 @@ TEST(reconstruirTEST, pasajePorCero){
 }
 
 TEST(reconstruirTEST, casoBorde){
-    senial hablante1 = {1, 0, -3, 4, 6, 0, 0, 0, 0, 10};
+    senial hablante1 = {1, 0, -3, 4, 7, 0, 0, 0, 0, 10};
     int prof = 8;
     int freq = 10;
 
-    senial hablante1Reconstruido = {1, 0, -3, 4, 6, 8, 8, 8, 8, 10};
+    senial hablante1Reconstruido = {1, 0, -3, 4, 7, 8, 8, 8, 8, 10};
 
     senial hablanteObtenido = reconstruir(hablante1, prof, freq);
 

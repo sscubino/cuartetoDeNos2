@@ -49,15 +49,14 @@ vector<hablante> tonosDeVozElevados(reunion r, int freq, int prof) {
     vector<hablante> maximos = {r[0].second};
     float maximoTono = tono(r[0].first);
     for (int i = 1; i < r.size(); i++){
-        float tonoi = tono(r[i].first);
-        if (tonoi > maximoTono){
+        float t = tono(r[i].first);
+        if (t > maximoTono){
             maximos = {r[i].second};
-            maximoTono = tonoi;
+            maximoTono = t;
         } else if (tono(r[i].first) == maximoTono){
             maximos.push_back(r[i].second);
         };
     }
-    // Implementacion
     return maximos;
 }
 
