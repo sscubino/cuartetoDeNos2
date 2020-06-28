@@ -2,6 +2,30 @@
 \input{Algo1Macros}
 \usepackage{caratula}
 \usepackage{scrextend}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{amsmath}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+language=C++,
+aboveskip=3mm,
+belowskip=3mm,
+showstringspaces=false,
+columns=flexible,
+basicstyle={\small\ttfamily},
+numbers=none,
+numberstyle=\tiny\color{gray},
+keywordstyle=\color{blue},
+commentstyle=\color{dkgreen},
+stringstyle=\color{mauve},
+breaklines=true,
+breakatwhitespace=true,
+tabsize=3
+}
 
 
 \begin{document}
@@ -28,10 +52,104 @@
 \section*{Notas}
 \vspace{0.5cm}
 
-\newpage
 
-\addcontentsline{toc}{section}{Ejercicio 1}
+\newpage
+\addcontentsline{toc}{section}{Demostraciones de complejidad}
+\section*{Demostraciones de complejidad}
+\vspace{0.5cm}
+\subsection{acelerar}
+asd
+\subsection{ordenar}
+asd
+\subsection{hablantesSuperpuestos}
+asd
+
+\newpage
+\addcontentsline{toc}{section}{Cálculo de complejidad}
+\section*{Cálculo de complejidad}
+\vspace{0.5cm}
+\subsection{seEnojo}
+Cuento la cantidad de operaciones en peor caso, llamando $n=|s|$
+
+\begin{lstlisting}
+bool seEnojo(senial s, int umbral, int prof, int freq) {
+    bool resp = false;                                      // 1
+    for (int i = 0; i < s.size(); i++) {                    // 5, n iteraciones
+        for (int j = i+freq*2-1; j < s.size(); j++) {       // 10, (n-(i+freq*2-1)) iteraciones (si n<=(i+freq*2-1), entonces hace 0 iteraciones)
+            resp = resp || tonoRango(s, i, j) > umbral;// 6 + 10 + n*9
+        }                                                   // t(n) = 10 + (n-(i+freq*2-1))*(16+n*9 + 3 + 1) si n<=(i+freq*2-1). Si no, t(n)=10
+    }                                                       // t1(n) lo calculo abajo
+    return resp;                                            // 1
+}                                                           // t2(n) = 2 + t1(n)
+float tonoRango(senial s, int desde, int hasta){
+    float t = 0;                                            // 1
+    for (int i = desde; i <= hasta; i++) {                  // 5, n iteraciones
+        t += abs(s[i]);                                     // 5
+    }                                                       // t(n) = 5 + n * (5+3+1)
+    return t/s.size();                                      // 4
+}                                                           // t(n) = 10 + n * (9)
+\end{lstlisting}
+
+Asumiendo $n > 2*freq$ (o sea, que la muestra dura en total mas de 2 segundos):
+
+\begin{equation*}
+\begin{split}
+t_1(n) ={} & 5 + \sum_{i=0}^{n-2*freq}(10 + (n-(i+freq*2-1))*(20+n*9)) + (2*freq * 10)\\
+      & = \frac{1}{2} (9 n + 20) (2 freq - n - 22) (2 freq - n - 1) + (20*freq)
+\end{split}
+\end{equation*}
+
+Luego,
+$t_2(n) = \frac{1}{2} (9 n + 20) (2 freq - n - 22) (2 freq - n - 1) + (20*freq) + 2$
+, y tomando freq como constante, queda claro que seEnojo es $O(n^3)$
+
+\newpage
+\subsection{silencios}
+
+\begin{lstlisting}
+vector<intervalo> silencios(senial s, int prof, int freq, int umbral) {
+    // Nota: para el tiemo de ejecucion de peor caso estoy considerando el caso
+    // en el que toda la senial es silencio, leer aclaracion abajo
+    vector<intervalo> intervalos;                                                       // 1
+    for (int i = 0; i < s.size(); i++) {                                                // 3, 1 iteracion
+        if(abs(s[i]) < umbral){                                                         // 4
+            int avanzarHasta = i;                                                       // 1
+            for (int j = i; j < s.size(); j++) {                                        // 3, n iteraciones
+                avanzarHasta = j+1;                                                     // 3
+                if(abs(s[j]) < umbral && (j == s.size()-1 || abs(s[j+1]) >= umbral)){       // 17
+                    intervalo interv = make_pair(i, j);                                 // 3
+                    if(duracion(interv, freq) >= 0.2)                                   // 7 + 3
+                        intervalos.push_back(interv);                                   // 2
+                    break;                                                              // 1
+                }
+            }                                                                           // t(n) = 3 + n(3+17+1) + (3+10+2+1)
+            i = avanzarHasta;                                                           // 2
+        }
+    }                                                                                   // t(n) = 3 + 1(4+1+(3+n(21)+(16))+2)
+    return intervalos;                                                                  // 1
+}                                                                                       // t(n) = 31+21n
+
+float duracion (intervalo interv, int freq){
+    return (interv.second + 1 - interv.first) * 1.f / freq;                             // 7 operaciones. O(1)
+}
+\end{lstlisting}
+
+Notar que sólo se recorre cada posición de s una vez, ya que si entra al for de adentro, despúes actualizo i
+al valor de j+1, ya que sé que o no hay silencios en [i,j] o que ya fueron agregados a intervalos.
+
+Dado que todas las operaciones dentro de ambos fors son O(1), y se ejecutan como máximo $n=|s|$ veces, puedo
+asegurar que el algoritmo es O(n).
+
+Además, el tiempo de peor caso es el que se obtendrá si s es todo silencio, ya que forzará a que se ejecute n
+veces la guarda $if(abs(s[j]) < umbral \&\& (j == s.size()-1 || abs(s[j+1]) >= umbral))$ y el incremento de
+la variable avanzarHasta, que tienen un tiempo de ejecución mayor a lo que ocurre cuando no hay silencios,
+que hace que se ejecute únicamente la guarda $if(abs(s[i]) < umbral)$. Entonces, lo comentado en el código el tiempo de
+ejecución en peor caso, considerando que éste se da al ser todo silencios.
+
+
+\newpage
+\subsection{filtradoMediana}
+asd
 
 
 \end{document}
-
