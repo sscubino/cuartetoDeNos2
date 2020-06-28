@@ -90,7 +90,7 @@ bool enRango(int muestra, int prof){
 
 float tono(senial s){
     float t = 0;
-    for (int i = 0; i <= s.size(); i++) {
+    for (int i = 0; i < s.size(); i++) {
         t += abs(s[i]);
     }
     return t/s.size();
