@@ -23,7 +23,7 @@ Para eso esta el comando `git clone` y luego la direccion URL del repositorio. A
 
 ### Cómo generar analisis de cobertura de código (linux)
 Correr en el directorio principal del proyecto:
-- `lcov --capture --directory cmake-build-debug/ --output-filecobertura`
+- `lcov --capture --directory cmake-build-debug/ --output-file cobertura`
 - `genhtml cobertura --output-directory html`
 
 (Puede que tengan que instalar lcov, con `sudo apt install lcov`)
