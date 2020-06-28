@@ -83,9 +83,25 @@ bool hablantesSuperpuestos(reunion r, int prof, int freq, int umbral) {
 }
 
 senial reconstruir(senial s, int prof, int freq) {
-    senial senalReconstruida;
-    // Implementacion
-    return senalReconstruida;
+    senial res = {s[0]};
+    int l = 0;
+    for (int r = 1; r < s.size(); r++) {
+        if ( s[r] != 0 ) {
+            if (!(r - l == 2 && s[l] * s[r] < 0)){
+                int prom = s[l]/2 + s[r]/2;
+                l++;
+                while (l < r) {
+                    res.push_back(prom);
+                    l++;
+                }
+            } else {
+                res.push_back(0);
+                l += 2;
+            }
+            res.push_back(s[r]);
+        }
+    }
+    return res;
 }
 
 void filtradoMediana(senial& s, int R, int prof, int freq){
