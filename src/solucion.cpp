@@ -21,7 +21,7 @@ bool seEnojo(senial s, int umbral, int prof, int freq) {
         // Inicializar j como i+freq*2-1 me asegura que
         // subseq(s, i, j+1) tenga duracion >= 2seg
         for (int j = i+freq*2-1; j < s.size(); j++) {
-            resp = resp || tono(s, i, j) > umbral;
+            resp = resp || tonoRango(s, i, j) > umbral;
         }
     }
     
@@ -46,7 +46,17 @@ void ralentizar(reunion& r, int prof, int freq) {
 }
 
 vector<hablante> tonosDeVozElevados(reunion r, int freq, int prof) {
-    vector<hablante> maximos;
+    vector<hablante> maximos = {r[0].second};
+    float maximoTono = tono(r[0].first);
+    for (int i = 1; i < r.size(); i++){
+        float tonoi = tono(r[i].first);
+        if (tonoi > maximoTono){
+            maximos = {r[i].second};
+            maximoTono = tonoi;
+        } else if (tono(r[i].first) == maximoTono){
+            maximos.push_back(r[i].second);
+        };
+    }
     // Implementacion
     return maximos;
 }

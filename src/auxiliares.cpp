@@ -88,7 +88,15 @@ bool enRango(int muestra, int prof){
     return (-pow(2, prof-1) <= muestra && muestra <= pow(2, prof-1)-1);
 }
 
-float tono(senial s, int desde, int hasta){
+float tono(senial s){
+    float t = 0;
+    for (int i = 0; i <= s.size(); i++) {
+        t += abs(s[i]);
+    }
+    return t/s.size();
+}
+
+float tonoRango(senial s, int desde, int hasta){
     float t = 0;
     for (int i = desde; i <= hasta; i++) {
         t += abs(s[i]);
