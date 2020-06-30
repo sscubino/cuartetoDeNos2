@@ -28,20 +28,83 @@ bool seEnojo(senial s, int umbral, int prof, int freq) {
     return resp;
 }
 
+
+bool enRango(int muestra, int prof){
+    return (-pow(2, prof-1) <= muestra && muestra <= pow(2, prof-1)-1);
+}
+float duracion(senial s, int freq){
+    return s.size() * 1.0 / freq;
+}
+bool hablantesDeReunionesValidos(reunion r){
+    bool resp = true;
+    for (int i = 0; i < r.size(); ++i) {
+        if ((get<1>(r[i])) >= r.size() || (get<1>(r[i])) < 0){
+            resp = false;
+        }
+    }
+    return resp;
+}
+bool senialesValidas(reunion r, int prof, int freq) {
+    bool resp = (freq==10 && (prof==8 || prof==16 || prof==32));
+    for (int i = 0; i < r.size(); i++) {
+        resp = resp && duracion(get<0>(r[i]), freq) >= 1;
+        for (int j = 0; j < get<0>(r[i]).size(); j++) {
+            resp = resp && enRango(get<0>(r[i])[j], prof);
+        }
+    }
+    return resp;
+}
+bool reunionValida(reunion r, int prof, int freq) {
+    bool resp = false;
+    if (r.size() > 0 && senialesValidas(r, prof, freq) && hablantesDeReunionesValidos(r)) {
+        resp = true;
+    }
+    return resp;
+}
 bool esReunionValida(reunion r, int prof, int freq) {
     bool resp = false;
-    // Implementacion
+    resp = reunionValida(r, prof , freq);
     return resp;
 }
 
 
 void acelerar(reunion& r, int prof, int freq) {
-    // Implementacions
+    for (int i = 0; i < r.size(); ++i) {
+        senial acelerado;
+        senial original = get<0>(r[i]);
+        for (int j = 1; j < get<0>(r[i]).size(); j=j+2) {  //recorre los valores impares de las seniales
+            acelerado.push_back(original[j]);
+        }
+        get<0>(r[i]) = acelerado;
+    }
     return;
 }
 
+
+void relent(senial& s) {
+    senial relentizado;
+    int i = 0;
+    int j = 0;
+    int promedio = 0;
+    while (j < (s.size()*2)-1) {
+        if (j % 2 == 0) {
+            relentizado.push_back(s[i]);
+            i++;
+            j++;
+        }
+        else {
+            promedio = (s[i-1]+s[i])/2;
+            relentizado.push_back(promedio);
+            j++;
+        }
+    }
+    s = relentizado;
+    return;
+}
 void ralentizar(reunion& r, int prof, int freq) {
-    // Implementacions
+    for (int i = 0; i < r.size(); ++i) {
+        relent (get<0>(r[i]));
+    }
     return;
 }
 
@@ -59,6 +122,7 @@ vector<hablante> tonosDeVozElevados(reunion r, int freq, int prof) {
     }
     return maximos;
 }
+
 
 void ordenar(reunion& r, int freq, int prof) {
     // Implementacion

@@ -15,4 +15,12 @@ TEST(esResunionValidaTEST, reunionValida){
     ASSERT_TRUE(esReunionValida(reunion, prof, freq));
 }
 
+TEST(esReunionValidaTEST, reunionValida2){
+    senial hablante3 = {1, 3, -3, 4, 6, 0, -2, -8, 9, -15, 7};
+    senial hablante4 = {1, 3, -3, 4, 6, 0, -2, -8, 9, -15, 7};
+    reunion reunion = {make_pair(hablante3, 3), make_pair(hablante4, 4)};
+    int prof = 8;
+    int freq = 10;
 
+    ASSERT_FALSE(esReunionValida(reunion, prof, freq));
+}
