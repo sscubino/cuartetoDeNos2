@@ -1,5 +1,6 @@
 #include "solucion.h"
 #include<iostream>
+#include <algorithm>
 
 // Ejercicios
 
@@ -29,12 +30,6 @@ bool seEnojo(senial s, int umbral, int prof, int freq) {
 }
 
 
-bool enRango(int muestra, int prof){
-    return (-pow(2, prof-1) <= muestra && muestra <= pow(2, prof-1)-1);
-}
-float duracion(senial s, int freq){
-    return s.size() * 1.0 / freq;
-}
 bool hablantesDeReunionesValidos(reunion r){
     bool resp = true;
     for (int i = 0; i < r.size(); ++i) {
@@ -179,8 +174,36 @@ senial reconstruir(senial s, int prof, int freq) {
     return res;
 }
 
+
+void swap(vector <int > &lista , int i, int j){
+    int k=lista[i];
+    lista[i]= lista[j];
+    lista[j]=k;
+}
+void burbujeo(vector <int> &lista, int i) {
+    for (int j=lista.size()-1; j>i; j--){
+        if (lista[j] < lista[j-1]){
+            swap(lista, j, j-1);
+        }
+    }
+}
+vector <int> bubbleSort(vector <int> lista) {
+    for(int i=0; i<lista.size(); i++){
+        burbujeo(lista ,i);
+    }
+    return  lista;
+}
 void filtradoMediana(senial& s, int R, int prof, int freq){
-    // Implementacion
+    senial aux = s;
+    int i = R;
+    while (0 <= i-R && i+R+1 < aux.size()) {
+        senial w;
+        for (int j = i-R; j <= i+R; ++j) {
+            w.push_back(aux[j]);
+        }
+        w = bubbleSort(w);
+        s[i] = w[R];
+        i++;
+    }
     return;
 }
-
