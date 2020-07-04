@@ -119,7 +119,7 @@ vector<hablante> tonosDeVozElevados(reunion r, int freq, int prof) {
 
 
 void ordenar(reunion& r, int freq, int prof) {
-for (int i = 1; i < r.size(); i++) {
+    for (int i = 0; i < r.size(); i++) {
         burbujeoReuniones(r, i); 
     }
 }

@@ -110,7 +110,7 @@ float duracion (intervalo interv, int freq){
 void burbujeoReuniones (reunion &r, int i){
     for (int j=r.size()-1; j>i; j--){
         if (tono(r[j].first) > tono(r[j-1].first)){
-            cambiar(r, j, j-1);
+            swapReuniones(r, j, j-1);
         }
     }
 }
@@ -119,6 +119,8 @@ void swapReuniones (reunion &r, int i, int j){
     pair<senial, hablante> b = r[j];
     r[i] = b;
     r[j] = a;
+}
+
 void ASSERT_SENIAL_EQ(senial s1, senial s2) {
     ASSERT_TRUE(senialesOrdenadasIguales(s1, s2));
 }
