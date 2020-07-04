@@ -60,7 +60,37 @@ tabsize=3
 \subsection{acelerar}
 asd
 \subsection{ordenar}
-asd
+Cuento la cantidad de operaciones en peor caso, llamando $m=|r|$ y $n=|(r[0])_0|$
+
+\begin{lstlisting}
+void ordenar(reunion& r, int freq, int prof) {
+    for (int i = 1; i < r.size(); i++) {                        // 5, m-1 iteraciones
+        burbujeo(r, i);                                         // 2 + 49m - 49 + 22n*m - 22n = 49m - 47 + 22 n*m - 22n
+    }                                                           // t(n,m) = 49m^2-96m + 22n*m^2 - 44n*m + 47 + 22n -> O(n*m^2)
+}
+
+void burbujeoReuniones (reunion &r, int i){
+    for (int j=r.size()-1; j>i; j--){                           // 5, m-1 iteraciones
+        if (tono(r[j].first) > tono(r[j-1].first)){             // 9 + 2 * (9+11n) = 27 + 22n
+            cambiar(r, j, j-1);                                 // 14 + 3 = 17
+        }                                                       // t(n,m) = 5 + (5+17+27+22n) * (m-1) = 49m - 49 + 22n*m - 22n
+    }                                                           // t(n,m) = 49m - 49 + 22n*m - 22n -> O(n*m)
+}
+float tono(senial s){
+    float t = 0;                                               // 1
+    for (int i = 0; i < s.size(); i++) {                       // 5, n iteraciones
+        t += abs(s[i]);                                        // 6
+    }                                                          // t(n) = 5 + 11n
+    return t/s.size();                                         // 3
+}                                                              // t(n) = 9 + 11n -> O(n)
+void swapReuniones (reunion &r, int i, int j){
+    pair<senial, hablante> a = r[i];                           // 3
+    pair<senial, hablante> b = r[j];                           // 3
+    r[i] = b;                                                  // 4
+    r[j] = a;                                                  // 4
+
+}                                                              // t = 14 -> O(1)
+\end{lstlisting}
 \subsection{hablantesSuperpuestos}
 asd
 
