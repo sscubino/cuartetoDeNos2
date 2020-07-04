@@ -101,7 +101,7 @@ float tonoRango(senial s, int desde, int hasta){
     for (int i = desde; i <= hasta; i++) {
         t += abs(s[i]);
     }
-    return t/s.size();
+    return t/(hasta-desde+1);
 }
 
 float duracion (intervalo interv, int freq){

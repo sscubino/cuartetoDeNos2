@@ -1,6 +1,5 @@
 #include "solucion.h"
 #include<iostream>
-#include <algorithm>
 
 // Ejercicios
 
