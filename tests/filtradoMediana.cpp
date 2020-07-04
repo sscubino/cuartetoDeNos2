@@ -2,6 +2,7 @@
 #include "../src/auxiliares.h"
 #include "../lib/gtest.h"
 
+// w = (-15, -8, -3, -2, 0, 1, 3, 4, 6, 9)
 
 using namespace std;
 
