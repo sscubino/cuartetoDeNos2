@@ -147,8 +147,23 @@ vector<intervalo> silencios(senial s, int prof, int freq, int umbral) {
 
 
 bool hablantesSuperpuestos(reunion r, int prof, int freq, int umbral) {
+    vector<int> registroDeSilencios(r[0].first.size(), 0);
+
+    for (int i = 0; i < r.size(); ++i) {
+        vector<intervalo> silenciosDelHablante = silencios(r[i].first, prof, freq, umbral);
+        for (int j = 0; j < silenciosDelHablante.size(); ++j) {
+            for (int k = silenciosDelHablante[j].first; k <= silenciosDelHablante[j].second; ++k) {
+                registroDeSilencios[k] += 1;
+            }
+        }
+    }
+
     bool resp = false;
-    // Implementacion
+    for (int i = 0; i < registroDeSilencios.size() && !resp; ++i) {
+        if (registroDeSilencios[i] < r.size()-1){
+            resp = true;
+        }
+    }
     return resp;
 }
 
