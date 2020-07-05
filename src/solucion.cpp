@@ -196,9 +196,9 @@ vector <int> bubbleSort(vector <int> lista) {
 void filtradoMediana(senial& s, int R, int prof, int freq){
     senial aux = s;
     int i = R;
-    while (1 <= i-R && i+R+1 < aux.size()) {
+    while (0 <= i-R && i+R+1 < aux.size()) {
         senial w;
-        for (int j = i-R; j <= i+R; ++j) {
+        for (int j = i-R; j < i+R+1; ++j) {
             w.push_back(aux[j]);
         }
         w = bubbleSort(w);

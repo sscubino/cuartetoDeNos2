@@ -171,9 +171,9 @@ ejecución en peor caso, considerando que éste se da al ser todo silencios.
 void filtradoMediana(senial& s, int R, int prof, int freq){
     senial aux = s;
     int i = R;
-    while (1 <= i-R && i+R+1 < aux.size()) {  // i)
+    while (0 <= i-R && i+R+1 < aux.size()) {  // i)
         senial w;
-        for (int j = i-R; j <= i+R; ++j) {  // ii)
+        for (int j = i-R; j < i+R+1; ++j) {  // ii)
             w.push_back(aux[j]);
         }
         w = bubbleSort(w);  // iii)
@@ -184,11 +184,13 @@ void filtradoMediana(senial& s, int R, int prof, int freq){
 }
 \end{lstlisting}
 
-i) En el peor caso en este ciclo se recorre la señal original casi entera (menos los extremos, ya que los valores extremos de la señal de entrada no son filtrados porque no es posible obtener la ventana de F muestras con las R muestras anteriores y las R próximas) por lo que su complejidad es $O(m)$ con m siendo el tamaño del vector original.
+i) En el peor caso en este ciclo se recorre la señal original entera por lo que su complejidad es $O(m)$ con m siendo el tamaño del vector original.
 
-ii) Mientras que en este ciclo pasa lo mismo excepto con el último elemento, por lo tanto su complejidad también es $O(m)$.
+ii) Mientras que en este ciclo pasa lo mismo excepto con el último elemento de la señal original, esto no cambia que su complejidad también sea $O(m)$.
 
 iii) Como vimos en la teórica, la complejidad del algoritmo bubbleSort es $O(n^2)$ donde n es la longitud de w y se aplica sobre todo w.
+
+Lo definido antes del primer ciclo son operaciones elementales que sólo cuestan $O(1)$, la declaración de la señal y el pushback también y por último las últimas 2 asignaciones también, por lo que no suman al total de la complejidad.
 
 Luego, la complejidad total es $O(m^2 \times n^2)$
 
