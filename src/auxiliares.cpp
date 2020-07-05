@@ -4,25 +4,26 @@
 #include "fstream"
 
 void escribirSenial(senial  s, string nombreArchivo){
-    std::ofstream f(nombreArchivo);
-    for (int i = 0; i < s.size(); i++) {
-        f << s[i];
-        if(i < s.size()-1) f << " ";
+    ofstream fout;
+    fout.open(nombreArchivo);
+    for (int i = 0; i < sizeof(s); ++i) {
+        fout << s[i] << " ";
     }
-    f.close();
+    fout.close();
     return;
 }
 
 
 senial leerSenial(string nombreArchivo){
     senial s;
-    ifstream f(nombreArchivo);
-    int val;
-    while (f>>val){
-        s.push_back(val);
+    int i = 0;
+    ifstream fin;
+    fin.open(nombreArchivo);
+    while (!fin.eof()) {
+        fin >> i;
+        s.push_back(i);
     }
-    f.close();
-
+    fin.close();
     return s;
 }
 
