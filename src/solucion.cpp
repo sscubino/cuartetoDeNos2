@@ -146,24 +146,44 @@ vector<intervalo> silencios(senial s, int prof, int freq, int umbral) {
 
 
 bool hablantesSuperpuestos(reunion r, int prof, int freq, int umbral) {
-    vector<int> registroDeSilencios(r[0].first.size(), 0);
+    //en el siguiente vector escribiremos en cada instante de la reunion, si alguien hablaba
+    vector<int> registroDeNoSilencios(r[0].first.size(), 0);
 
     for (int i = 0; i < r.size(); ++i) {
+        //leemos la lista de intervalos de silencios de cada hablante y escribimos, en el vector antes mencionado,
+        //los instantes donde cada uno habló.
+
         vector<intervalo> silenciosDelHablante = silencios(r[i].first, prof, freq, umbral);
+        //a y b se moveran entre los limites de los intervalos de silencio, representando los intervalos de "NOsilencio"
+        int a = 0;
+        int b;
+        //aqui leemos cada uno de los intervalos en la lista de silencios
         for (int j = 0; j < silenciosDelHablante.size(); ++j) {
-            for (int k = silenciosDelHablante[j].first; k <= silenciosDelHablante[j].second; ++k) {
-                registroDeSilencios[k] += 1;
+            b = silenciosDelHablante[j].first;
+            //escribimos el vectos de no silencios:
+            for (int k = a; k < b; ++k) {
+                if (registroDeNoSilencios[k] == 0) {
+                    //si nadie habia hablado en ese instante, escribimos 1
+                    registroDeNoSilencios[k] = 1;
+                } else {
+                    //si alguien ya habia hablado retornamos falso
+                    return true;
+                }
+            }
+            a = silenciosDelHablante[j].second+1;
+        }
+        //repetimos para lo que seria el ultimo intervalo
+        b = r[i].first.size();
+        for (int k = a; k < b; ++k) {
+            if (registroDeNoSilencios[k] == 0) {
+                registroDeNoSilencios[k] = 1;
+            } else {
+                return true;
             }
         }
     }
 
-    bool resp = false;
-    for (int i = 0; i < registroDeSilencios.size() && !resp; ++i) {
-        if (registroDeSilencios[i] < r.size()-1){
-            resp = true;
-        }
-    }
-    return resp;
+    return false;
 }
 
 senial reconstruir(senial s, int prof, int freq) {

@@ -28,14 +28,24 @@ TEST(hablantesSuperpuestosTEST, comienzoJustoDespuesDelOtro){
     ASSERT_FALSE(hablantesSuperpuestos(reunion, prof, freq, umbral));
 }
 
-TEST(hablantesSuperpuestosTEST, IntercaladosSoloPorUnaMuestra){
+TEST(hablantesSuperpuestosTEST, IntercaladosSoloPorDosMuestras){
     senial hablante1 = {1, 1, 1, 1, 1, 6, 6, 1, 1, 1};
-    senial hablante2 = {6, 6, 6, 6, 6, 0, 0, 6, 6, 6};
-    senial hablante3 = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
-    reunion reunion = {make_pair(hablante1, 0), make_pair(hablante2, 1), make_pair(hablante3, 2)};
+    senial hablante2 = {6, 6, 6, 6, 6, 0, 0, 6, 6, 6}; //el hablante dos solo se silencia por 2 muestras, por lo q se considera q sigue hablando.
+    reunion reunion = {make_pair(hablante1, 0), make_pair(hablante2, 1)};
+    int prof = 8;
+    int freq = 20;
+    int umbral = 3;
+
+    ASSERT_TRUE(hablantesSuperpuestos(reunion, prof, freq, umbral));
+}
+
+TEST(hablantesSuperpuestosTEST, SilenciosEnBordesSuperpuesto){
+    senial hablante1 = {1, 1, 1, 1, 1, 1, 1, 1, 6, 6, 6, 6, 6, 6, 1, 1, 1, 1, 1, 1};
+    senial hablante2 = {6, 6, 6, 6, 6, 6, 6, 6, 6, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6};
+    reunion reunion = {make_pair(hablante1, 0), make_pair(hablante2, 1)};
     int prof = 8;
     int freq = 10;
     int umbral = 3;
 
-    ASSERT_FALSE(hablantesSuperpuestos(reunion, prof, freq, umbral));
+    ASSERT_TRUE(hablantesSuperpuestos(reunion, prof, freq, umbral));
 }
