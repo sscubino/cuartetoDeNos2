@@ -77,6 +77,8 @@ ii) Mientras que en este ciclo se recorre cada señal, a pesar de que sólo se r
 
 Como el resto de las sólo son operaciones elementales la complejidad total nos queda $O(m \times n)$.
 
+
+\newpage
 \subsection{ordenar}
 Cuento la cantidad de operaciones en peor caso, llamando $m=|r|$ y $n=|(r[0])_0|$
 
@@ -109,6 +111,9 @@ void swapReuniones (reunion &r, int i, int j){
 
 }                                                              // t = 14 -> O(1)
 \end{lstlisting}
+
+
+\newpage
 \subsection{hablantesSuperpuestos}
 asd
 
@@ -121,35 +126,27 @@ Cuento la cantidad de operaciones en peor caso, llamando $n=|s|$
 
 \begin{lstlisting}
 bool seEnojo(senial s, int umbral, int prof, int freq) {
-    bool resp = false;                                      // 1
-    for (int i = 0; i < s.size(); i++) {                    // 5, n iteraciones
-        for (int j = i+freq*2-1; j < s.size(); j++) {       // 10, (n-(i+freq*2-1)) iteraciones (si n<=(i+freq*2-1), entonces hace 0 iteraciones)
-            resp = resp || tonoRango(s, i, j) > umbral;// 6 + 10 + n*9
-        }                                                   // t(n) = 10 + (n-(i+freq*2-1))*(16+n*9 + 3 + 1) si n<=(i+freq*2-1). Si no, t(n)=10
-    }                                                       // t1(n) lo calculo abajo
-    return resp;                                            // 1
-}                                                           // t2(n) = 2 + t1(n)
+    bool resp = false;                                      // O(1)
+    for (int i = 0; i < s.size(); i++) {                    // guarda O(1), n iteraciones
+        for (int j = i+freq*2-1; j < s.size(); j++) {       // guarda O(1), (n-(i+freq*2-1)) iteraciones (si n<=(i+freq*2-1), entonces hace 0 iteraciones)
+            resp = resp || tonoRango(s, i, j) > umbral;// O(n)
+        }                                                   // O(n^2) si n>(i+freq*2-1). Si no, O(1). Como me interesa como se comporta en el limite, lo considero O(n)
+    }                                                       // O(n^3) (cuerpo O(1), guarda O(1), n iteraciones)
+    return resp;                                            // O(1)
+}                                                           // O(n^3)
 float tonoRango(senial s, int desde, int hasta){
-    float t = 0;                                            // 1
-    for (int i = desde; i <= hasta; i++) {                  // 5, n iteraciones
-        t += abs(s[i]);                                     // 5
-    }                                                       // t(n) = 5 + n * (5+3+1)
-    return t/s.size();                                      // 4
-}                                                           // t(n) = 10 + n * (9)
+    float t = 0;                                            // O(1)
+    for (int i = desde; i <= hasta; i++) {                  // guarda O(1), n iteraciones
+        t += abs(s[i]);                                     // O(1)
+    }                                                       // O(n) (guarda y cuerpo O(1), n iteraciones)
+    return t/s.size();                                      // O(1)
+}                                                           // O(n)
 \end{lstlisting}
 
-Asumiendo $n > 2*freq$ (o sea, que la muestra dura en total mas de 2 segundos):
-
-\begin{equation*}
-\begin{split}
-t_1(n) ={} & 5 + \sum_{i=0}^{n-2*freq}(10 + (n-(i+freq*2-1))*(20+n*9)) + (2*freq * 10)\\
-      & = \frac{1}{2} (9 n + 20) (2 freq - n - 22) (2 freq - n - 1) + (20*freq)
-\end{split}
-\end{equation*}
-
-Luego,
-$t_2(n) = \frac{1}{2} (9 n + 20) (2 freq - n - 22) (2 freq - n - 1) + (20*freq) + 2$
-, y tomando freq como constante, queda claro que seEnojo es $O(n^3)$
+Como se puede ver, seEnojo consiste de 3 ciclos for anidados, cada uno se ejecuta en peor caso O(n) veces.
+Considero que $n>(i+freq*2-1)$, ya que freq es constante, por lo que siempre va a existir un n tal que esto se cumpla,
+y para la notación O grande, me interesa como se comporta la complejidad en el limite.
+Esto resulta en una complejidad $O(n^3)$ para la función seEnojo
 
 \newpage
 \subsection{silencios}
@@ -158,27 +155,27 @@ $t_2(n) = \frac{1}{2} (9 n + 20) (2 freq - n - 22) (2 freq - n - 1) + (20*freq) 
 vector<intervalo> silencios(senial s, int prof, int freq, int umbral) {
     // Nota: para el tiemo de ejecucion de peor caso estoy considerando el caso
     // en el que toda la senial es silencio, leer aclaracion abajo
-    vector<intervalo> intervalos;                                                       // 1
-    for (int i = 0; i < s.size(); i++) {                                                // 3, 1 iteracion
-        if(abs(s[i]) < umbral){                                                         // 4
-            int avanzarHasta = i;                                                       // 1
-            for (int j = i; j < s.size(); j++) {                                        // 3, n iteraciones
-                avanzarHasta = j+1;                                                     // 3
-                if(abs(s[j]) < umbral && (j == s.size()-1 || abs(s[j+1]) >= umbral)){       // 17
-                    intervalo interv = make_pair(i, j);                                 // 3
-                    if(duracion(interv, freq) >= 0.2)                                   // 7 + 3
-                        intervalos.push_back(interv);                                   // 2
-                    break;                                                              // 1
+    vector<intervalo> intervalos;                                                       // O(1)
+    for (int i = 0; i < s.size(); i++) {                                                // guarda O(1), 1 iteracion
+        if(abs(s[i]) < umbral){                                                         // O(1)
+            int avanzarHasta = i;                                                       // O(1)
+            for (int j = i; j < s.size(); j++) {                                        // guarda O(1), n iteraciones
+                avanzarHasta = j+1;                                                     // O(1)
+                if(abs(s[j]) < umbral && (j == s.size()-1 || abs(s[j+1]) >= umbral)){       // O(1)
+                    intervalo interv = make_pair(i, j);                                 // O(1)
+                    if(duracion(interv, freq) >= 0.2)                                   // O(1) + O(1)
+                        intervalos.push_back(interv);                                   // O(1)
+                    break;                                                              // O(1)
                 }
-            }                                                                           // t(n) = 3 + n(3+17+1) + (3+10+2+1)
-            i = avanzarHasta;                                                           // 2
+            }                                                                           // O(n) (guarda y cuerpo O(1), n iteraciones)
+            i = avanzarHasta;                                                           // O(1)
         }
-    }                                                                                   // t(n) = 3 + 1(4+1+(3+n(21)+(16))+2)
-    return intervalos;                                                                  // 1
-}                                                                                       // t(n) = 31+21n
+    }                                                                                   // O(n) (guarda O(1), cuerpo O(n), 1 iteracion)
+    return intervalos;                                                                  // O(1)
+}                                                                                       // O(n)
 
 float duracion (intervalo interv, int freq){
-    return (interv.second + 1 - interv.first) * 1.f / freq;                             // 7 operaciones. O(1)
+    return (interv.second + 1 - interv.first) * 1.f / freq;                             // O(1)
 }
 \end{lstlisting}
 
