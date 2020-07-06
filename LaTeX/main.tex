@@ -115,7 +115,61 @@ void swapReuniones (reunion &r, int i, int j){
 
 \newpage
 \subsection{hablantesSuperpuestos}
-asd
+En pocas palabras, la función hablantesSuperpuestos aplica la funcion silencios a las señales de cada hablante,
+obteniendo asi, los indices de los intervalos de los silencios de cada hablante.
+Al inicio, se declara un vector de ceros de tamaño n, que almasenara los instantes donde un hablante no estuvo en
+silencio. \newline
+Con los indices a y b se moverán entre el final de un intervalo de silencios y el comienzo de el siguiente. Y en cada
+iteracion se escribira en el vector antes mensionado entre los indices a y b sin incluir, "unos", indicando de que un
+hablante habló en ese periodo. \newline
+Si en ningun momento se escribio un uno donde ya habia un uno, la funcion retornará falso, pues no se superponen. \newline
+
+\begin{lstlisting}
+bool hablantesSuperpuestos(reunion r, int prof, int freq, int umbral) {
+    vector<int> registroDeNoSilencios(r[0].first.size(), 0);                               // O(n)
+
+    for (int i = 0; i < r.size(); ++i) {                                       // guarda O(1), cuerpo O(n),m iteraciones
+        vector<intervalo> silenciosDelHablante = silencios(r[i].first, prof, freq, umbral);// O(n), justificado abajo
+
+        int a = 0;                                                                         // O(1)
+        int b;                                                                             // O(1)
+        for (int j = 0; j < silenciosDelHablante.size(); ++j) {   // guarda O(1), la cantidad de silencios del hablante
+            b = silenciosDelHablante[j].first;                                             // O(1)
+            for (int k = a; k < b; ++k) {                           // guarda O(1), la cantidad de iteraciones sera b-a
+                if (registroDeNoSilencios[k] == 0) {                                       // O(1)
+                    registroDeNoSilencios[k] = 1;                                          // O(1)
+                } else {
+                    return true;                                          // en el peor caso no se entrara a este branch
+                }
+            }
+            a = silenciosDelHablante[j].second+1;                                          // O(1)
+        }
+
+        b = r[i].first.size();                                                             // Se repite una iteracion
+        for (int k = a; k < b; ++k) {                                                      // mas el cuerpo del ciclo
+            if (registroDeNoSilencios[k] == 0) {                                           // anterior.
+                registroDeNoSilencios[k] = 1;
+            } else {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+\end{lstlisting}
+
+Podemos ver que el codigo cuenta con un ciclo que realiza m iteraciones con un cuerpo de complejidad O(n), quedando una
+complejidad de O(n*m). \newline
+Veamos por que el cuerpo tiene complejidad n: \newline
+Al principio de cada ciclo se llama a ordenar, de complejidad O(n), justificado más abajo. \newline
+Los valores de a y b cambian en cada iteracion, pero tenemos la certesa de que la suma total de los b-a de las
+iteraciones estan acotados por n, pues basicamente lo que hacemos es escribir en el vector de hablantes, los instantes
+donde el hablante estuvo hablando. Por lo tanto se entiende que la complejidad del siguiente ciclo es O(n): \newline
+for (int j = 0; j < silenciosDelHablante.size(); ++j) { \newline
+    ... \newline
+} \newline
+El ultimo cuerpo fuera del ciclo tamb es O(n) \newline
+Y como adentro de ciclo grande tenemos suma de O(n), el cuerpo es O(n). \newline
 
 \newpage
 \addcontentsline{toc}{section}{Cálculo de complejidad}
