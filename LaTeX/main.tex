@@ -58,7 +58,25 @@ tabsize=3
 \section*{Demostraciones de complejidad}
 \vspace{0.5cm}
 \subsection{acelerar}
-asd
+\begin{lstlisting}
+void acelerar(reunion& r, int prof, int freq) {
+    for (int i = 0; i < r.size(); ++i) { // i)
+        senial acelerado;
+        senial original = get<0>(r[i]);
+        for (int j = 1; j < get<0>(r[i]).size(); j=j+2) {  // ii)
+            acelerado.push_back(original[j]);
+        }
+        get<0>(r[i]) = acelerado;
+    }
+    return; 
+}
+\end{lstlisting}
+i) En este ciclo se recorren todos los elementos de la reunión, o sea cada hablante, llamando m a la longitud de la reunión nos termina costando $O(m)$.
+
+ii) Mientras que en este ciclo se recorre cada señal, a pesar de que sólo se recorren las posiciones impares igual nos termina costando $O(n)$, donde n es el tamaño de cada señal.
+
+Como el resto de las sólo son operaciones elementales la complejidad total nos queda $O(m \times n)$.
+
 \subsection{ordenar}
 Cuento la cantidad de operaciones en peor caso, llamando $m=|r|$ y $n=|(r[0])_0|$
 
@@ -179,7 +197,31 @@ ejecución en peor caso, considerando que éste se da al ser todo silencios.
 
 \newpage
 \subsection{filtradoMediana}
-asd
+\begin{lstlisting}
+void filtradoMediana(senial& s, int R, int prof, int freq){
+    senial aux = s;
+    int i = R;
+    while (0 <= i-R && i+R+1 < aux.size()) {  // i)
+        senial w;
+        for (int j = i-R; j < i+R+1; ++j) {  // ii)
+            w.push_back(aux[j]);
+        }
+        w = bubbleSort(w);  // iii)
+        s[i] = w[R];
+        i++;
+    }
+    return;
+}
+\end{lstlisting}
 
+i) En el peor caso en este ciclo se recorre la señal original entera por lo que su complejidad es $O(m)$ con m siendo el tamaño del vector original.
+
+ii) Mientras que en este ciclo pasa lo mismo excepto con el último elemento de la señal original, esto no cambia que su complejidad también sea $O(m)$.
+
+iii) Como vimos en la teórica, la complejidad del algoritmo bubbleSort es $O(n^2)$ donde n es la longitud de w y se aplica sobre todo w.
+
+Lo definido antes del primer ciclo son operaciones elementales que sólo cuestan $O(1)$, la declaración de la señal y el pushback también y por último las últimas 2 asignaciones también, por lo que no suman al total de la complejidad.
+
+Luego, la complejidad total es $O(m^2 \times n^2)$.
 
 \end{document}

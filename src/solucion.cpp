@@ -233,7 +233,7 @@ void filtradoMediana(senial& s, int R, int prof, int freq){
     int i = R;
     while (0 <= i-R && i+R+1 < aux.size()) {
         senial w;
-        for (int j = i-R; j <= i+R; ++j) {
+        for (int j = i-R; j < i+R+1; ++j) {
             w.push_back(aux[j]);
         }
         w = bubbleSort(w);
