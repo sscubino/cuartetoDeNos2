@@ -48,16 +48,20 @@ bool senialesValidas(reunion r, int prof, int freq) {
     }
     return resp;
 }
-bool reunionValida(reunion r, int prof, int freq) {
-    bool resp = false;
-    if (r.size() > 0 && senialesValidas(r, prof, freq) && hablantesDeReunionesValidos(r)) {
-        resp = true;
+bool esMatriz(reunion r) {
+    bool resp = true;
+    for (int i = 0; i < r.size(); ++i) {
+        if (get<0>(r[0]).size() != get<0>(r[i]).size()) {
+            resp = false;
+        }
     }
     return resp;
 }
 bool esReunionValida(reunion r, int prof, int freq) {
     bool resp = false;
-    resp = reunionValida(r, prof , freq);
+    if (r.size() > 0 && esMatriz(r) && senialesValidas(r, prof, freq) && hablantesDeReunionesValidos(r)) {
+        resp = true;
+    }
     return resp;
 }
 
@@ -71,7 +75,6 @@ void acelerar(reunion& r, int prof, int freq) {
         }
         get<0>(r[i]) = acelerado;
     }
-    return;
 }
 
 
@@ -93,13 +96,11 @@ void relent(senial& s) {
         }
     }
     s = relentizado;
-    return;
 }
 void ralentizar(reunion& r, int prof, int freq) {
     for (int i = 0; i < r.size(); ++i) {
         relent (get<0>(r[i]));
     }
-    return;
 }
 
 vector<hablante> tonosDeVozElevados(reunion r, int freq, int prof) {
