@@ -80,21 +80,31 @@ Como el resto de las sólo son operaciones elementales la complejidad total nos 
 
 \newpage
 \subsection{ordenar}
-Cuento la cantidad de operaciones en peor caso, llamando $m=|r|$ y $n=|(r[0])_0|$
+Cuento la cantidad de operaciones en peor caso, llamando $m=|r|$ y $n=|(r[0])_0|$ \newline
+Cuento como operaciones elementales: \newline
+(i) Los accesos a valores de las variables. \newline
+(ii) Los accesos a elementos de vectores. \newline
+(iii) Los accesos a elementos de tuplas (operación $first$). \newline
+(iv) Las inicializaciones de las variables. \newline
+(v) Las asignaciones. \newline
+(vi) Las operaciones matemáticas o lógicas. \newline
+(vii) La operación $size$. \newline
+(viii) Los incrementos del tipo "$i++$", y los decrementos del tipo "$j--$". \newline
+(ix) La operación $return$. \newline
 
 \begin{lstlisting}
 void ordenar(reunion& r, int freq, int prof) {
-    for (int i = 1; i < r.size(); i++) {                        // 5, m-1 iteraciones
-        burbujeo(r, i);                                         // 2 + 49m - 49 + 22n*m - 22n = 49m - 47 + 22 n*m - 22n
-    }                                                           // t(n,m) = 49m^2-96m + 22n*m^2 - 44n*m + 47 + 22n -> O(n*m^2)
+    for (int i = 1; i < r.size(); i++) {                       // 5, m-1 iteraciones
+        burbujeoReuniones(r, i);                               // 2 + 49m - 49 + 22n*m - 22n = 49m - 47 + 22 n*m - 22n
+    }                                                          // t(n,m) = 49m^2-96m + 22n*m^2 - 44n*m + 47 + 22n -> O(n*m^2)
 }
 
 void burbujeoReuniones (reunion &r, int i){
-    for (int j=r.size()-1; j>i; j--){                           // 5, m-1 iteraciones
-        if (tono(r[j].first) > tono(r[j-1].first)){             // 9 + 2 * (9+11n) = 27 + 22n
-            cambiar(r, j, j-1);                                 // 14 + 3 = 17
-        }                                                       // t(n,m) = 5 + (5+17+27+22n) * (m-1) = 49m - 49 + 22n*m - 22n
-    }                                                           // t(n,m) = 49m - 49 + 22n*m - 22n -> O(n*m)
+    for (int j=r.size()-1; j>i; j--){                          // 5, m-1 iteraciones
+        if (tono(r[j].first) > tono(r[j-1].first)){            // 9 + 2 * (9+11n) = 27 + 22n
+            swapReuniones(r, j, j-1);                          // 14 + 3 = 17
+        }                                                      // t(n,m) = 5 + (5+17+27+22n) * (m-1) = 49m - 49 + 22n*m - 22n
+    }                                                          // t(n,m) = 49m - 49 + 22n*m - 22n -> O(n*m)
 }
 float tono(senial s){
     float t = 0;                                               // 1
