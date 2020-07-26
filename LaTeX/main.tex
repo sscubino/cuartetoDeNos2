@@ -47,12 +47,6 @@ tabsize=3
 
 % End carátula
 
-
-\addcontentsline{toc}{section}{Notas}
-\section*{Notas}
-\vspace{0.5cm}
-
-
 \newpage
 \addcontentsline{toc}{section}{Demostraciones de complejidad}
 \section*{Demostraciones de complejidad}
@@ -68,14 +62,14 @@ void acelerar(reunion& r, int prof, int freq) {
         }
         get<0>(r[i]) = acelerado;
     }
-    return; 
+    return;
 }
 \end{lstlisting}
 i) En este ciclo se recorren todos los elementos de la reunión, o sea cada hablante, llamando m a la longitud de la reunión nos termina costando $O(m)$.
 
 ii) Mientras que en este ciclo se recorre cada señal, a pesar de que sólo se recorren las posiciones impares de la misma, igual nos termina costando $O(n)$, donde n es el tamaño de cada señal.
 
-Como el resto son sólo operaciones elementales y asignaciones de señales, la complejidad total nos queda $O(m \times n)$.
+Como el resto son sólo operaciones elementales y asignaciones de señales (que es $O(n)$), la complejidad total nos queda $O(m \times n)$.
 
 
 \newpage
@@ -89,7 +83,7 @@ Cuento como operaciones elementales: \newline
 (v) Las asignaciones. \newline
 (vi) Las operaciones matemáticas o lógicas. \newline
 (vii) La operación $size$. \newline
-(viii) Los incrementos del tipo ”$i++$”, y los decrementos del tipo ”$j−−$”. \newline
+(viii) Los incrementos del tipo ”$i++$”, y los decrementos del tipo ”$j--$”. \newline
 (ix) La operación $return$. \newline
 
 \begin{lstlisting}
@@ -127,10 +121,10 @@ void swapReuniones (reunion &r, int i, int j){
 \subsection{hablantesSuperpuestos}
 En pocas palabras, la función hablantesSuperpuestos aplica la funcion silencios a las señales de cada hablante,
 obteniendo asi, los indices de los intervalos de los silencios de cada hablante.
-Al inicio, se declara un vector de ceros de tamaño n, que almasenara los instantes donde un hablante no estuvo en
+Al inicio, se declara un vector de ceros de tamaño n, que almacenara los instantes donde un hablante no estuvo en
 silencio. \newline
 Con los indices a y b se moverán entre el final de un intervalo de silencios y el comienzo de el siguiente. Y en cada
-iteracion se escribira en el vector antes mensionado entre los indices a y b sin incluir, "unos", indicando de que un
+iteracion se escribira en el vector antes mencionado entre los indices a y b sin incluir, "unos", indicando de que un
 hablante habló en ese periodo. \newline
 Si en ningun momento se escribio un uno donde ya habia un uno, la funcion retornará falso, pues no se superponen. \newline
 
@@ -172,13 +166,13 @@ Podemos ver que el codigo cuenta con un ciclo que realiza m iteraciones con un c
 complejidad de O(n*m). \newline
 Veamos por que el cuerpo tiene complejidad n: \newline
 Al principio de cada ciclo se llama a ordenar, de complejidad O(n), justificado más abajo. \newline
-Los valores de a y b cambian en cada iteracion, pero tenemos la certesa de que la suma total de los b-a de las
+Los valores de a y b cambian en cada iteracion, pero tenemos la certeza de que la suma total de los b-a de las
 iteraciones estan acotados por n, pues basicamente lo que hacemos es escribir en el vector de hablantes, los instantes
 donde el hablante estuvo hablando. Por lo tanto se entiende que la complejidad del siguiente ciclo es O(n): \newline
 for (int j = 0; j < silenciosDelHablante.size(); ++j) { \newline
     ... \newline
 } \newline
-El ultimo cuerpo fuera del ciclo tamb es O(n) \newline
+El ultimo cuerpo fuera del ciclo también es O(n) \newline
 Y como adentro de ciclo grande tenemos suma de O(n), el cuerpo es O(n). \newline
 
 \newpage

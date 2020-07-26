@@ -35,6 +35,11 @@ bool hablantesDeReunionesValidos(reunion r){
         if ((get<1>(r[i])) >= r.size() || (get<1>(r[i])) < 0){
             resp = false;
         }
+        for (int j = 0; j < r.size(); ++j) {
+            // Verifica que no hayan repetidos
+            if(j != i && (get<1>(r[i])) == (get<1>(r[j])))
+                resp = false;
+        }
     }
     return resp;
 }
@@ -241,5 +246,4 @@ void filtradoMediana(senial& s, int R, int prof, int freq){
         s[i] = w[R];
         i++;
     }
-    return;
 }
