@@ -164,7 +164,7 @@ bool hablantesSuperpuestos(reunion r, int prof, int freq, int umbral) {
 Podemos ver que el codigo cuenta con un ciclo que realiza m iteraciones con un cuerpo de complejidad O(n), quedando una
 complejidad de O(n*m). \newline
 Veamos por que el cuerpo tiene complejidad n: \newline
-Al principio de cada ciclo se llama a ordenar, de complejidad O(n), justificado más abajo. \newline
+Al principio de cada ciclo se llama a silencios, de complejidad O(n), justificado más abajo. \newline
 Los valores de a y b cambian en cada iteracion, pero tenemos la certeza de que la suma total de los b-a de las
 iteraciones estan acotados por n, pues basicamente lo que hacemos es escribir en el vector de hablantes, los instantes
 donde el hablante estuvo hablando. Por lo tanto se entiende que la complejidad del siguiente ciclo es O(n): \newline
