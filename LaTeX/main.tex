@@ -56,65 +56,63 @@ tabsize=3
 void acelerar(reunion& r, int prof, int freq) {
     for (int i = 0; i < r.size(); ++i) { // i)
         senial acelerado;
-        senial original = get<0>(r[i]);
+        senial original = get<0>(r[i]);  // O(n)
         for (int j = 1; j < get<0>(r[i]).size(); j=j+2) {  // ii)
             acelerado.push_back(original[j]);
         }
-        get<0>(r[i]) = acelerado;
+        get<0>(r[i]) = acelerado;  // O(n)
     }
 }
 \end{lstlisting}
-i) En este ciclo se recorren todos los elementos de la reunión, o sea cada hablante, llamando m a la longitud de la reunión nos termina costando $O(m)$.
 
-ii) Mientras que en este ciclo se recorre cada señal, a pesar de que sólo se recorren las posiciones impares de la misma, igual nos termina costando $O(n)$, donde n es el tamaño de cada señal.
+i) En este ciclo se recorren todos los elementos de la reunión, o sea cada hablante, llamando m a la
+longitud de la reunión nos termina costando $O(m)$.
+
+ii) En este ciclo se recorre cada señal, y a pesar de que sólo se recorren las posiciones impares de la misma,
+igual nos termina costando $O(n)$, donde n es el tamaño de cada señal. Esto se debe a que el cuerpo del ciclo es
+$O(1)$, y se hacen $n/2$ iteraciones.
 
 Como el resto son sólo operaciones elementales y asignaciones de señales (que es $O(n)$), la complejidad total nos queda $O(m \times n)$.
 
 
 \newpage
 \subsection{ordenar}
-Cuento la cantidad de operaciones en peor caso, llamando $m=|r|$ y $n=|(r[0])_0|$ \newline
-Cuento como operaciones elementales: \newline
-(i) Los accesos a valores de las variables. \newline
-(ii) Los accesos a elementos de vectores. \newline
-(iii) Los accesos a elementos de tuplas (operación $first$). \newline
-(iv) Las inicializaciones de las variables. \newline
-(v) Las asignaciones. \newline
-(vi) Las operaciones matemáticas o lógicas. \newline
-(vii) La operación $size$. \newline
-(viii) Los incrementos del tipo "$i++$", y los decrementos del tipo "$j--$". \newline
-(viii) Los incrementos del tipo ”$i++$”, y los decrementos del tipo ”$j--$”. \newline
-(ix) La operación $return$. \newline
+Calculo la complejidad en peor caso, llamando $m=|r|$ y $n=|(r[0])_0|$ \newline
 
 \begin{lstlisting}
 void ordenar(reunion& r, int freq, int prof) {
-    for (int i = 1; i < r.size(); i++) {                       // 5, m-1 iteraciones
-        burbujeoReuniones(r, i);                               // 2 + 49m - 49 + 22n*m - 22n = 49m - 47 + 22 n*m - 22n
-    }                                                          // t(n,m) = 49m^2-96m + 22n*m^2 - 44n*m + 47 + 22n -> O(n*m^2)
-}
+    for (int i = 1; i < r.size(); i++) {                       // guarda O(1), m-1 iteraciones
+        burbujeoReuniones(r, i);                               // O(n*m)
+    }                                                          // O(m^2*n) (guarda O(1), cuerpo O(n*m), m-1 iteraciones)
+}                                                              // O(m^2*n)
 
 void burbujeoReuniones (reunion &r, int i){
-    for (int j=r.size()-1; j>i; j--){                          // 5, m-1 iteraciones
-        if (tono(r[j].first) > tono(r[j-1].first)){            // 9 + 2 * (9+11n) = 27 + 22n
-            swapReuniones(r, j, j-1);                          // 14 + 3 = 17
-        }                                                      // t(n,m) = 5 + (5+17+27+22n) * (m-1) = 49m - 49 + 22n*m - 22n
-    }                                                          // t(n,m) = 49m - 49 + 22n*m - 22n -> O(n*m)
-}
-float tono(senial s){
-    float t = 0;                                               // 1
-    for (int i = 0; i < s.size(); i++) {                       // 5, n iteraciones
-        t += abs(s[i]);                                        // 6
-    }                                                          // t(n) = 5 + 11n
-    return t/s.size();                                         // 3
-}                                                              // t(n) = 9 + 11n -> O(n)
-void swapReuniones (reunion &r, int i, int j){
-    pair<senial, hablante> a = r[i];                           // 3
-    pair<senial, hablante> b = r[j];                           // 3
-    r[i] = b;                                                  // 4
-    r[j] = a;                                                  // 4
+    for (int j=r.size()-1; j>i; j--){                          // guarda O(1), m-1 iteraciones
+        if (tono(r[j].first) > tono(r[j-1].first)){            // O(n) + O(n) = O(n)
+            swapReuniones(r, j, j-1);                          // O(n)
+        }                                                      // O(n)
+    }                                                          // O(n*m) (guarda O(1), cuerpo O(n), m-1 iteraciones)
+}                                                              // O(n*m)
 
-}                                                              // t = 14 -> O(1)
+float tono(senial s){
+    float t = 0;                                               // O(1)
+    for (int i = 0; i < s.size(); i++) {                       // guarda O(1), n iteraciones
+        t += abs(s[i]);                                        // O(1)
+    }                                                          // O(n) (guarda y cuerpo O(1), n iteraciones)
+    return t/s.size();                                         // O(1)
+}                                                              // O(n)
+
+void swapReuniones (reunion &r, int i, int j){
+    pair<senial, hablante> a = r[i];                           // O(n) (se estan copiando seniales)
+    pair<senial, hablante> b = r[j];                           // O(n)
+    r[i] = b;                                                  // O(n)
+    r[j] = a;                                                  // O(n)
+}                                                              // O(n)
 \end{lstlisting}
+
+Como se puede ver, la complejidad en peor caso de la función ordenar es de $O(m^2\times n)$
+Una cosa a notar es que en swapReuniones, todas las operaciones que se hacen implican copiar señales,
+por lo que son todas $O(n)$
 
 
 \newpage
@@ -162,18 +160,18 @@ bool hablantesSuperpuestos(reunion r, int prof, int freq, int umbral) {
 }
 \end{lstlisting}
 
-Podemos ver que el codigo cuenta con un ciclo que realiza m iteraciones con un cuerpo de complejidad O(n), quedando una
-complejidad de O(n*m). \newline
+Podemos ver que el codigo cuenta con un ciclo que realiza m iteraciones con un cuerpo de complejidad $O(n)$, quedando una
+complejidad de $O(n\times m)$. \newline
 Veamos por que el cuerpo tiene complejidad n: \newline
-Al principio de cada ciclo se llama a silencios, de complejidad O(n), justificado más abajo. \newline
+Al principio de cada ciclo se llama a silencios, de complejidad $O(n)$, justificado más abajo. \newline
 Los valores de a y b cambian en cada iteracion, pero tenemos la certeza de que la suma total de los b-a de las
 iteraciones estan acotados por n, pues basicamente lo que hacemos es escribir en el vector de hablantes, los instantes
-donde el hablante estuvo hablando. Por lo tanto se entiende que la complejidad del siguiente ciclo es O(n): \newline
+donde el hablante estuvo hablando. Por lo tanto se entiende que la complejidad del siguiente ciclo es $O(n)$: \newline
 for (int j = 0; j < silenciosDelHablante.size(); ++j) { \newline
     ... \newline
 } \newline
-El ultimo cuerpo fuera del ciclo también es O(n) \newline
-Y como adentro de ciclo grande tenemos suma de O(n), el cuerpo es O(n). \newline
+El ultimo cuerpo fuera del ciclo también es $O(n)$ \newline
+Y como adentro de ciclo grande tenemos suma de $O(n)$, el cuerpo es $O(n)$. \newline
 
 \newpage
 \addcontentsline{toc}{section}{Cálculo de complejidad}
@@ -201,8 +199,8 @@ float tonoRango(senial s, int desde, int hasta){
 }                                                           // O(n)
 \end{lstlisting}
 
-Como se puede ver, seEnojo consiste de 3 ciclos for anidados, cada uno se ejecuta en peor caso O(n) veces.
-Considero que $n>(i+freq*2-1)$, ya que freq es constante, por lo que siempre va a existir un n tal que esto se cumpla,
+Como se puede ver, seEnojo consiste de 3 ciclos for anidados, cada uno se ejecuta en peor caso $O(n)$ veces.
+Considero que $n>(i+freq*2-1)$, ya que freq es constante, por lo que siempre va a existir un $n$ tal que esto se cumpla,
 y para la notación O grande, me interesa como se comporta la complejidad en el limite.
 Esto resulta en una complejidad $O(n^3)$ para la función seEnojo
 
@@ -240,8 +238,8 @@ float duracion (intervalo interv, int freq){
 Notar que sólo se recorre cada posición de s una vez, ya que si entra al for de adentro, despúes actualizo i
 al valor de j+1, ya que sé que o no hay silencios en [i,j] o que ya fueron agregados a intervalos.
 
-Dado que todas las operaciones dentro de ambos fors son O(1), y se ejecutan como máximo $n=|s|$ veces, puedo
-asegurar que el algoritmo es O(n).
+Dado que todas las operaciones dentro de ambos fors son $O(1)$, y se ejecutan como máximo $n=|s|$ veces, puedo
+asegurar que el algoritmo es $O(n)$.
 
 Además, el tiempo de peor caso es el que se obtendrá si s es todo silencio, ya que forzará a que se ejecute n
 veces la guarda $if(abs(s[j]) < umbral \&\& (j == s.size()-1 || abs(s[j+1]) >= umbral))$ y el incremento de
