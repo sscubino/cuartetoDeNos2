@@ -10,7 +10,6 @@ void escribirSenial(senial  s, string nombreArchivo){
         if(i < s.size()-1) fout << " ";
     }
     fout.close();
-    return;
 }
 
 
