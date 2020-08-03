@@ -164,10 +164,10 @@ Podemos ver que el codigo cuenta con un ciclo que realiza m iteraciones con un c
 complejidad de $O(n\times m)$. \newline
 Veamos por que el cuerpo tiene complejidad n: \newline
 Al principio de cada ciclo se llama a silencios, de complejidad $O(n)$, justificado más abajo. \newline
-Los valores de a y b cambian en cada iteracion, pero tenemos la certeza de que la suma total de los b-a de las
-iteraciones estan acotados por n, pues basicamente lo que hacemos es escribir en el vector de hablantes, los instantes
+Los valores de a y b cambian en cada iteracion, pero tenemos la certeza de que la suma total de los $b-a$ de las
+iteraciones estan acotados por $n$, pues basicamente lo que hacemos es escribir en el vector de hablantes, los instantes
 donde el hablante estuvo hablando. Por lo tanto se entiende que la complejidad del siguiente ciclo es $O(n)$: \newline
-for (int j = 0; j < silenciosDelHablante.size(); ++j) { \newline
+for (int j = 0; j \textless silenciosDelHablante.size(); ++j) { \newline
     ... \newline
 } \newline
 El ultimo cuerpo fuera del ciclo también es $O(n)$ \newline
