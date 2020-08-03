@@ -272,7 +272,7 @@ ii) En el peor caso, con R = 4, se recorren a lo sumo 9 posiciones (2*R+1), por 
 
 iii) Como vimos en la teórica, la complejidad del algoritmo bubbleSort es $O(n^2)$ donde n es la longitud de w y se aplica sobre todo w, como el tamaño de w es a lo sumo 9, en el peor caso termina costando $O(9^2)$, por lo que tampoco suma al total de la complejidad.
 
-Lo definido antes del primer ciclo son operaciones elementales que sólo cuestan $O(1)$, la declaración de la señal y el pushback también y por último las últimas 2 asignaciones también, por lo que no suman al total de la complejidad.
+Lo definido antes del primer ciclo son operaciones elementales($O(1)$) y asignaciones de vectores ($O(m)$), la declaración de la señal w y el pushback también son $O(1)$, y por último las últimas 2 asignaciones también, por lo que no suman al total de la complejidad.
 
 Luego, la complejidad total es $O(m)$.
 
